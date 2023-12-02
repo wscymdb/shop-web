@@ -5,11 +5,7 @@ import routes from './router'
 import { AppWrapper } from './views/style'
 
 const App = memo(() => {
-  return (
-    <AppWrapper>
-      <div className="page">{useRoutes(routes)}</div>
-    </AppWrapper>
-  )
+  return <AppWrapper>{useRoutes(routes)}</AppWrapper>
 })
 
 export default App

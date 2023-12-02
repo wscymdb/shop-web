@@ -17,9 +17,9 @@ module.exports = {
   devServer: {
     proxy: {
       '/api': {
-        target: 'http://codercba.com:1888/airbnb',
+        target: 'http://localhost:8888',
         changeOrigin: true,
-        // pathRewrite: { '^/api': '' },
+        pathRewrite: { '^/api': '' },
       },
     },
   },

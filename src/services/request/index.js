@@ -23,10 +23,15 @@ class YMRequest {
       return config
     })
 
-    this.instance.interceptors.response.use((res) => {
-      // todo
-      return res.data
-    })
+    this.instance.interceptors.response.use(
+      (res) => {
+        // todo
+        return res.data
+      },
+      (err) => {
+        window.$msg.error(err.message)
+      }
+    )
   }
 
   // 封装网络请求方法
