@@ -1,19 +1,40 @@
-import React, { memo, useCallback } from 'react'
+import React, { memo } from 'react'
 import { LoginLeftItemWrapper } from './style'
 import { Button, Form, Input } from 'antd'
+import { useDispatch } from 'react-redux'
+import { setUserInfoAction } from '@/store/feature/login'
+import * as http from '@/services/modules/login'
+import { useNavigate } from 'react-router-dom'
 
 const LoginLeftItem = memo(() => {
-  const handleLogin = useCallback(function () {
-    console.log(123)
-  }, [])
+  const dispatch = useDispatch()
+  const [form] = Form.useForm()
+  const navigate = useNavigate()
+
+  const handleFinish = async (v) => {
+    try {
+      const { data } = await http.login({ ...v })
+      if (!data) return
+      dispatch(setUserInfoAction(data))
+      navigate('/main')
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <LoginLeftItemWrapper>
       <div className="title">CMS后台管理系统</div>
       <div className="content">
-        <Form name="basic" autoComplete="off">
+        <Form
+          name="basic"
+          autoComplete="off"
+          form={form}
+          onFinish={handleFinish}
+        >
           <Form.Item
             validateTrigger="onBlur"
-            name="username"
+            name="name"
             rules={[
               {
                 required: true,
@@ -39,7 +60,7 @@ const LoginLeftItem = memo(() => {
         </Form>
       </div>
       <div className="action">
-        <Button className="ym-button" block onClick={handleLogin}>
+        <Button className="ym-button" block onClick={(e) => form.submit()}>
           登陆
         </Button>
       </div>

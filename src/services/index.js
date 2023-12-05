@@ -9,20 +9,26 @@ function getRequest(contentType) {
   return new YMRequest({
     baseURL: '',
     timeout: 100000,
-    // interceptors: {
-    //   successRequestFn(config) {
-    //     config.headers.Authorization = 987
-    //     // 请求的时候在请求头添加token
-    //     const token = localCache.getCache('token')
-    //     if (config.headers && token) {
-    //       config.headers.Authorization = token
-    //     }
-    //     // 判断contentType类型
-    //     if (contentType === 'encoded') config.data = stringify(config.data)
+    interceptors: {
+      successRequestFn(config) {
+        config.headers.Authorization = 987
+        // 请求的时候在请求头添加token
+        const token = localCache.getCache('token')
+        if (config.headers && token) {
+          config.headers.Authorization = token
+        }
+        // 判断contentType类型
+        if (contentType === 'encoded') config.data = stringify(config.data)
 
-    //     return config
-    //   },
-    // },
+        return config
+      },
+      successResponseFn(config) {
+        if (config.data.code !== 0) {
+          window.$msg.error(config.data.msg)
+        }
+        return config
+      }
+    }
   })
 }
 

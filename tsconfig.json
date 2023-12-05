@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*":[
+        "./src/*"
+      ]
+    },
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true,
+      "noEmitOnError": true,
+      "target": "esnext",
+      "module": "esnext",
+      "strict": true,
+      "allowJs": true,
+      "noEmit": true,
+      "noImplicitThis": true,
+      "esModuleInterop": true,
+      "sourceMap": true,
+      "moduleResolution": "node"
+  },
+}

@@ -5,6 +5,8 @@ import 'normalize.css'
 import { message } from 'antd'
 import App from './App'
 import Loading from './views/loding'
+import { Provider } from 'react-redux'
+import store from '@/store'
 
 window.$msg = message
 
@@ -12,7 +14,9 @@ const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <Suspense fallback={<Loading />}>
     <HashRouter>
-      <App />
+      <Provider store={store}>
+        <App />
+      </Provider>
     </HashRouter>
   </Suspense>
 )
