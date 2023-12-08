@@ -6,6 +6,11 @@ import { setUserInfoAction } from '@/store/feature/login'
 import * as http from '@/services/modules/login'
 import { useNavigate } from 'react-router-dom'
 
+const initialValues = {
+  name: 'zs',
+  password: '123456'
+}
+
 const LoginLeftItem = memo(() => {
   const dispatch = useDispatch()
   const [form] = Form.useForm()
@@ -27,6 +32,7 @@ const LoginLeftItem = memo(() => {
       <div className="title">CMS后台管理系统</div>
       <div className="content">
         <Form
+          initialValues={initialValues}
           name="basic"
           autoComplete="off"
           form={form}

@@ -2,6 +2,7 @@ import { memo, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import routes from '@/router'
 import { getCurrentRoute } from '@/utils/about-router'
+import { localCache } from '@/utils/cache'
 
 const RouterBeforeEach = memo(({ children }) => {
   const location = useLocation()
@@ -10,7 +11,8 @@ const RouterBeforeEach = memo(({ children }) => {
   useEffect(() => {
     console.log(location)
     const router = getCurrentRoute(routes, location.pathname)
-    const login = true
+
+    const login = localCache.getCache('token')
     if (router && router.auth && !login) {
       navigate('/login')
     }

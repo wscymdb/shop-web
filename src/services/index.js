@@ -11,7 +11,9 @@ function getRequest(contentType) {
     timeout: 100000,
     interceptors: {
       successRequestFn(config) {
-        config.headers.Authorization = 987
+        if (config.headers && contentType) {
+          config.headers['Content-Type'] = contentType
+        }
         // 请求的时候在请求头添加token
         const token = localCache.getCache('token')
         if (config.headers && token) {
@@ -33,6 +35,8 @@ function getRequest(contentType) {
 }
 
 // contentType是 application/x-www-form-urlencoded的请求
-export const request = getRequest('encoded')
+export const request = getRequest('application/x-www-form-urlencoded')
 // contentType是 application/json
-export const requestJson = getRequest('json')
+export const requestJson = getRequest('application/json')
+// contentType是 application/json
+export const requestMultipart = getRequest('multipart/form-data')

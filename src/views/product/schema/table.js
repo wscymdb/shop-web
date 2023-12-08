@@ -1,12 +1,14 @@
 import dayjs from 'dayjs'
-import { Button, Space } from 'antd'
+import { Button, Space, Tooltip, Carousel, Image } from 'antd'
+
 const columns = [
-  {
-    title: 'id',
-    dataIndex: 'id',
-    align: 'center',
-    key: 'id'
-  },
+  // {
+  //   title: 'id',
+  //   dataIndex: 'id',
+  //   align: 'center',
+  //   key: 'id',
+  //   fixed: 'left'
+  // },
   {
     title: '标题',
     dataIndex: 'title',
@@ -17,7 +19,15 @@ const columns = [
     title: '副标题',
     dataIndex: 'subtitle',
     align: 'center',
-    key: 'subtitle'
+    key: 'subtitle',
+    ellipsis: true,
+    render: (text, record) => {
+      return (
+        <Tooltip placement="topLeft" title={text}>
+          {text}
+        </Tooltip>
+      )
+    }
   },
   {
     title: '运费(元)',
@@ -38,16 +48,47 @@ const columns = [
     key: 'previous_price'
   },
   {
-    title: '商品图片',
-    dataIndex: 'img_paths',
+    title: '商品banner图片',
+    dataIndex: 'banner_path',
     align: 'center',
-    key: 'img_paths'
+    key: 'banner_path',
+    render(text) {
+      if (text) {
+        return (
+          <Carousel autoplay style={{ color: 'red' }}>
+            {text.split(',').map((item) => (
+              <Image key={item} src={item} />
+            ))}
+          </Carousel>
+        )
+      }
+      return ''
+    }
+  },
+  {
+    title: '商品详情图片',
+    dataIndex: 'detail_path',
+    align: 'center',
+    key: 'detail_path',
+    render(text) {
+      if (text) {
+        return (
+          <Carousel autoplay style={{ color: 'red' }}>
+            {text.split(',').map((item) => (
+              <Image key={item} src={item} />
+            ))}
+          </Carousel>
+        )
+      }
+      return ''
+    }
   },
   {
     title: '创建时间',
     dataIndex: 'createAt',
     align: 'center',
     key: 'createAt',
+    width: 220,
     render(text, record, index) {
       return dayjs(text).format('YYYY-MM-DD HH:mm:ss')
     }
@@ -57,6 +98,7 @@ const columns = [
     dataIndex: 'updateAt',
     align: 'center',
     key: 'updateAt',
+    width: 220,
     render(text, record, index) {
       return dayjs(text).format('YYYY-MM-DD HH:mm:ss')
     }
@@ -64,6 +106,7 @@ const columns = [
   {
     title: '操作',
     key: 'action',
+    fixed: 'right',
     render() {
       return (
         <Space size="small">

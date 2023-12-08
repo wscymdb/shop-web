@@ -29,6 +29,7 @@ class YMRequest {
         return res.data
       },
       (err) => {
+        console.log(err)
         window.$msg.error(err.message)
       }
     )
