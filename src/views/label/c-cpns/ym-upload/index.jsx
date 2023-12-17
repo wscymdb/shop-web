@@ -10,7 +10,7 @@ const getBase64 = (file) =>
     reader.onerror = (error) => reject(error)
   })
 const YmUpload = (props) => {
-  const { setPath, onChange, imgList } = props
+  const { setPath, onChange, imgList, maxCount } = props
 
   const [previewOpen, setPreviewOpen] = useState(false)
   const [previewImage, setPreviewImage] = useState('')
@@ -74,6 +74,7 @@ const YmUpload = (props) => {
         onChange={handleChange}
         onRemove={handleRemove}
         beforeUpload={handleBeforeUpload}
+        maxCount={maxCount ? maxCount : null}
       >
         {fileList.length >= 8 ? null : uploadButton}
       </Upload>

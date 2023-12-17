@@ -1,36 +1,44 @@
 import { requestJson, requestMultipart } from '..'
 
 // 获取商品列表
-export const getProductList = (data) => {
+export const getLabelList = (data) => {
   return requestJson.request({
-    method: 'post',
-    url: '/api/product/list',
+    method: 'get',
+    url: '/api/label',
     data
   })
 }
 
-// 根据id查询商品
+// 删除商品
+export const deleteLabelById = (id) => {
+  return requestJson.request({
+    method: 'delete',
+    url: `/api/label/${id}`
+  })
+}
+
+// 根据id查询标签
 export const getProductById = (id) => {
   return requestJson.request({
     method: 'get',
-    url: `/api/product/list/${id}`
+    url: `/api/label/${id}`
   })
 }
 
-// 添加商品
-export const addProduct = (data) => {
+// 添加标签
+export const addLabel = (data) => {
   return requestJson.request({
     method: 'post',
-    url: '/api/product/create',
+    url: '/api/label/',
     data
   })
 }
 
-// 修改商品
+// 修改标签
 export const editProduct = (data) => {
   return requestJson.request({
     method: 'put',
-    url: '/api/product/update',
+    url: '/api/label/update',
     data
   })
 }
@@ -41,14 +49,6 @@ export const uploadProductBanner = (data) => {
     method: 'post',
     url: '/api/upload/product_banner',
     data
-  })
-}
-
-// 删除商品
-export const deleteProductById = (id) => {
-  return requestJson.request({
-    method: 'delete',
-    url: `/api/product/delete/${id}`
   })
 }
 

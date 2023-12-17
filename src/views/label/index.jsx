@@ -1,36 +1,29 @@
-import React, { memo, useCallback, useEffect, useRef, useState } from 'react'
-import { ProductWrapper } from './style'
-
-import { Table, Button, Form, Input, DatePicker } from 'antd'
-import { getProductList } from '@/services/modules/product'
+import React, { memo, useCallback, useEffect, useState } from 'react'
+import { LabelWrapper } from './style'
+import { Table, Button } from 'antd'
 import getColumns from './schema/table'
 import AddOrEditDialog from './c-cpns/addOrEditDialog'
-import * as http from '@/services/modules/product'
+import * as http from '@/services/modules/label'
 import { getTableScroll } from '@/utils/getTableScroll'
-const { RangePicker } = DatePicker
 
-const Product = memo(() => {
+const Label = memo(() => {
   const [tableData, setTableData] = useState([])
-  const [form] = Form.useForm()
   const [visible, setVisible] = useState(false)
-  const [total, setTotal] = useState(0)
   const [loading, setLoading] = useState(false)
-  const [scrollY, setScrollY] = useState(0)
-  const pager = useRef({ page: 1, row: 10 })
   const [addOrEdit, setAddOrEdit] = useState('add')
   const [editId, setEditId] = useState(0)
+  const [scrollY, setScrollY] = useState(0)
 
   // init data
   const fetchList = async () => {
     try {
       setLoading(true)
-      const { data, total } = await getProductList({ ...pager.current })
+      const { data } = await http.getLabelList()
       setLoading(false)
       const tableData = data.map((item) => {
         item.key = item.id
         return item
       })
-      setTotal(total)
       setTableData(tableData)
     } catch (error) {
       console.log(error)
@@ -43,10 +36,6 @@ const Product = memo(() => {
     setScrollY(height)
   }, [])
 
-  const handleSearch = () => {
-    console.log(form.getFieldValue())
-  }
-
   // 新增
   const showDialog = () => {
     setAddOrEdit('add')
@@ -58,7 +47,7 @@ const Product = memo(() => {
 
   const dialogConfrim = useCallback(async (payload, type) => {
     console.log(payload)
-    const url = type === 'add' ? 'addProduct' : 'editProduct'
+    const url = type === 'add' ? 'addLabel' : 'editProduct'
 
     const { code } = await http[url](payload)
     if (code === 0) {
@@ -68,20 +57,9 @@ const Product = memo(() => {
     }
   }, [])
 
-  // 分页相关
-  const handlePageNationChange = (page, pageSize) => {
-    pager.current = { page, row: pageSize }
-    fetchList()
-  }
-  const paginationProps = {
-    total,
-    showTotal: (total) => `共 ${total} 页`,
-    onChange: handlePageNationChange
-  }
-
   // 删除
   const handleDelete = async ({ id }) => {
-    const { code } = await http.deleteProductById(id)
+    const { code } = await http.deleteLabelById(id)
     if (code === 0) {
       window.$msg.success('操作成功～')
       fetchList()
@@ -97,27 +75,7 @@ const Product = memo(() => {
   }
 
   return (
-    <ProductWrapper>
-      <div className="query basic">
-        <Form autoComplete="off" form={form} layout="inline">
-          <Form.Item label="标题" name="name">
-            <Input placeholder="请输入商品标题" />
-          </Form.Item>
-          <Form.Item label="时间" name="range">
-            <RangePicker format="YYYY-MM-DD" value="YYYY-MM-DD" />
-          </Form.Item>
-          <Form.Item>
-            <Button
-              type="primary"
-              style={{ marginRight: '10px' }}
-              onClick={handleSearch}
-            >
-              查询
-            </Button>
-            <Button>重置</Button>
-          </Form.Item>
-        </Form>
-      </div>
+    <LabelWrapper>
       <div className="table basic">
         <div className="actions">
           <Button type="primary" onClick={showDialog}>
@@ -128,12 +86,11 @@ const Product = memo(() => {
           bordered
           columns={getColumns({ handleDelete, handleEdit })}
           dataSource={tableData}
-          pagination={paginationProps}
-          scroll={{
-            y: scrollY,
-            x: 1600
-          }}
+          pagination={false}
           loading={loading}
+          scroll={{
+            y: scrollY
+          }}
         />
       </div>
       {/* dialog */}
@@ -145,8 +102,8 @@ const Product = memo(() => {
           editId={editId}
         ></AddOrEditDialog>
       )}
-    </ProductWrapper>
+    </LabelWrapper>
   )
 })
 
-export default Product
+export default Label

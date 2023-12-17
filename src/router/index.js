@@ -5,6 +5,7 @@ import NotFound from '@/views/404-not-found'
 
 const Main = React.lazy(() => import('@/views/main'))
 const Product = React.lazy(() => import('@/views/product'))
+const Label = React.lazy(() => import('@/views/label'))
 const Login = React.lazy(() => import('@/views/login'))
 
 const routes = [
@@ -28,6 +29,11 @@ const routes = [
       {
         path: '/main/product',
         element: <Product />,
+        auth: true
+      },
+      {
+        path: '/main/lable',
+        element: <Label />,
         auth: true
       }
     ]
