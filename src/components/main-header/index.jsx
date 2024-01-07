@@ -13,10 +13,10 @@ const items = [
     disabled: true,
     label: <div style={labelStyle}>陈哈哈</div>
   },
-  {
-    key: '2',
-    label: <div style={labelStyle}>个人中心</div>
-  },
+  // {
+  //   key: '2',
+  //   label: <div style={labelStyle}>个人中心</div>
+  // },
   {
     key: '3',
     label: <div style={labelStyle}>退出登录</div>

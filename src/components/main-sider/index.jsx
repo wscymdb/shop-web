@@ -16,7 +16,7 @@ function getItem(label, key, icon, children, type) {
 }
 
 const items = [
-  getItem('个人中心', '1', <PieChartOutlined />),
+  // getItem('个人中心', '1', <PieChartOutlined />),
 
   getItem('商品管理', 'sub1', <FileProtectOutlined />, [
     getItem('商品列表', '2')
